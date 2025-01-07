@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="shortcut icon" href="{% static 'icon.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'log.css' %}">
+</head>
+<body>
+    <div id="lottie-container">
+        <div id="lottie-animation"></div>
+    </div>
+    <div class="container" id="container">
+        <h1>Sign in</h1>
+        {% if messages %}
+            <div class="message-box">
+                {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                  </div>
+  
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" name="username" placeholder="Username or Email Address" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <a class="fp" href="#">Forgot Password?</a>
+            <div class="remember-terms">
+                <label class="check">
+                    <input type="checkbox">&nbsp;&nbsp;Remember me
+                </label>
+                <label class="check">
+                    <input type="checkbox">&nbsp;&nbsp;I agree to Terms and Conditions
+                </label>
+            </div>
+            <button type="submit" class="login-btn">LOGIN</button>
+        </form>
+    
+        <div class="social-login">
+            <p class="hbar"><span>Or login with</span></p>
+            <div class="social-buttons">
+                <a href="{% url 'social:begin' 'google-oauth2' %}" class="social-btn google-btn">
+                    <i class="fab fa-google"></i>
+                    Continue with Google
+                </a>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.5/lottie.min.js"></script>
+    <script>
+        const lottieContainer = document.getElementById("lottie-container");
+        const lottieAnimation = lottie.loadAnimation({
+            container: document.getElementById('lottie-animation'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: "{% static 'Animation - 1734895763911.json' %}",
+        });
+        function hideAnimation() {
+            setTimeout(() => {
+                lottieContainer.style.display = 'none'; 
+                const loginContainer = document.getElementById("login-container");
+                loginContainer.style.display = 'flex'; 
+            }, 2000); 
+        }
+        window.addEventListener("load", () => {
+            lottieAnimation.play();
+            hideAnimation();
+        });
+    </script>
+</body>
+
+</html>
